@@ -121,22 +121,22 @@
 ; ★ Fuller Design ★
 
 ; 1. Explain in words the algorithm suggested by the previous test cases.
-;
-;
+;    We have a subsequence based on the rest
+;    Based on this subsequence, we include-in-all the first element.
 ;
 ;
 ;
 ; 2. Fix the following to be a fuller design test case, using ‘include-in-all’:
-#|
+
 (check-expect (sub-sequences (list 1 2 3))
               (list
                (list) (list 3) (list 2) (list 2 3)
                (list 1) (list 1 3) (list 1 2) (list 1 2 3)))
-|#
+
 (check-expect (sub-sequences (list 1 2 3))
               (append
                (list (list) (list 3) (list 2) (list 2 3))
-               (include-in-all (list (list) (list 3) (list 2) (list 2 3)))))
+               (include-in-all 1 (list (list) (list 3) (list 2) (list 2 3)))))
 
 
 ; ★ Implementation ★
@@ -145,7 +145,7 @@
 
 (define (sub-sequences a-list)
   ;(list)
-  (if (empty? list)
-      (list)
-  (append (sub-sequences (rest list)) (include-in-all (first list) (sub-sequences (rest list)))))
+  (if (empty? a-list)
+      (list (list))
+      (append (sub-sequences (rest a-list)) (include-in-all (first a-list) (sub-sequences (rest a-list)))))
   )

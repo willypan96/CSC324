@@ -1,0 +1,80 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-reader.ss" "lang")((modname 2.II) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+
+; CSC324 2017W Lab : The Design Process, and Recursion on Nested Lists
+; ====================================================================
+
+; ★★★ Reminders ★★★
+;
+; ★ map : unary-function list → list
+;
+; (map u-f (list      a       b       c  ...))
+;  →
+;          (list (u-f a) (u-f b) (u-f c) ...)
+;
+; ★ apply : function list → any
+;
+; (apply f (list a b c ...))
+;  →
+;          (f    a b c ...)
+
+; ★ The predicate for lists ★
+(check-expect (list? (list 3 2 4)) #true)
+(check-expect (list? "3 2 4") #false)
+
+; ★★★ flatten ★★★
+
+; Complete the function ‘flatten’ that takes a value, and produces a list of all the
+;  non-list values in it. I.e. looking at the value as representing a tree with data
+;  only at the leaves, it produces a list of all the leaf data.
+;
+; Follow the test cases and instructions below.
+
+(check-expect (flatten (list (list 1 2) 3 (list 4 5)))
+              (list 1 2 3 4 5))
+
+(check-expect (flatten (list (list 1
+                                   2)
+                             3
+                             (list 4
+                                   (list (list (list 1 3)
+                                               (list 5 7))
+                                         (list (list 2 5)
+                                               (list 6))))
+                             8))
+              (list 1 2 3 4 1 3 5 7 2 5 6 8))
+
+; Partial design on a list of flat lists.
+(check-expect (flatten (list (list 1 2) (list 3 4)))
+              (append (list 1 2) (list 3 4)))
+
+; Notice that the partial design manually extracted the list elements and gave them to append.
+; Fix the result expression in the following, knowing only that the list contains flat lists,
+;  but without you manually inspecting the flat lists. I.e. do something instead of just the
+;  ‘identity’ on the list.
+(check-expect (flatten (list (list 1 2) (list 3 4)))
+              (identity (list (list 1 2) (list 3 4))))
+
+; Fix the following.
+(check-expect (flatten (list (list (list 1 2) (list 3 4))
+                             (list (list 1 3) (list 2))))
+              (identity (list (identity (list (list 1 2) (list 3 4)))
+                              (identity (list (list 1 3) (list 2))))))
+
+; If you didn't recurse in the previous part, do so now:
+
+
+; Re-factor your work, knowing only that the list is a list of lists of flat lists.
+(check-expect (flatten (list (list (list 1 2) (list 3 4))
+                             (list (list 1 3) (list 2))))
+              (identity (list (list (list 1 2) (list 3 4))
+                              (list (list 1 3) (list 2)))))
+
+; Decide the base case to make this work:
+(check-expect (flatten (list (list 1 2) 3 (list 4 5)))
+              (append (list 1 2) (list 4 5)))
+
+; Implement flatten.
+(define (flatten v)
+  v)
