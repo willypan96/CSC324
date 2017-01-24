@@ -92,6 +92,10 @@
                     (list 3 6)))
 
 ; Partial partial design. Complete this:
+(check-expect(map list (list 1 2 3) (list 4 5 6))
+             (list (list 1 4)
+                   (list 2 5)
+                   (list 3 6)))
 #;(check-expect (<?> <??> (list 1 2 3) (list 4 5 6))
                 (list (list 1 4)
                       (list 2 5)
@@ -102,9 +106,16 @@
    ; Use the same ‘<?>’ and ‘<??>’ as above.
    (<?> <??> (list 1 2 3) (list 4 5 6))
    (<???> <????> <?????> (list (list 1 2 3) (list 4 5 6))))
+(check-expect
+   (map list (list 1 2 3) (list 4 5 6))
+   (apply map list (list (list 1 2 3) (list 4 5 6))))
 
 ; Partially completed design. Complete this:
 #;(check-expect (<???> <????> <?????> (list (list 1 2 3) (list 4 5 6)))
+                (list (list 1 4)
+                      (list 2 5)
+                      (list 3 6)))
+(check-expect (apply map list (list (list 1 2 3) (list 4 5 6)))
                 (list (list 1 4)
                       (list 2 5)
                       (list 3 6)))
@@ -112,9 +123,11 @@
 ; Partially completed design. Complete this:
 #;(check-expect (columns→database (list (list 1 2 3) (list 4 5 6)))
                 (<???> <????> <?????> (list (list 1 2 3) (list 4 5 6))))
+(check-expect (columns→database (list (list 1 2 3) (list 4 5 6)))
+                (apply map list (list (list 1 2 3) (list 4 5 6))))
 
 (define (columns→database columns)
-  columns)
+  (apply map list columns))
 
 
 (define database
